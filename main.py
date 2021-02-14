@@ -16,19 +16,20 @@ class Category(str, Enum):
 
 class Style(str, Enum):
     streaks = 'streaks'
-    no_moving = 'no_moving'
+    highschore = 'highscore'
     speedrun = 'speedrun'
 
 
 class Name(str, Enum):
     nm = 'nm'
     nmpz = 'nmpz'
-    ncnc = 'ncnc'
+    ncnc = 'ncnc' #TODO: stick this somewhere else
 
 
 class Map(BaseModel):
     name: str
     link: HttpUrl
+    region: str
 
 
 class Record(BaseModel):
