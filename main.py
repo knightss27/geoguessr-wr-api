@@ -18,6 +18,7 @@ class Style(str, Enum):
     streaks = 'streaks'
     highschore = 'highscore'
     speedrun = 'speedrun'
+    hedge = 'hedge'
 
 
 class Name(str, Enum):
@@ -33,10 +34,12 @@ class Map(BaseModel):
 
 
 class Record(BaseModel):
+    owner: str
     category: Category
     style: Style
     name: Name
-    map_name: Map
+    map: Map
+    video: HttpUrl
     video: str
     time: Optional[str]
     score: Optional[str]
@@ -60,8 +63,6 @@ class Response(BaseModel):
 client = MongoClient(environ["MONGO_URI"])
 db = client.geoguessr_wr_api
 collection = db["records"]
-
-print(client)
 
 app = FastAPI()
 
