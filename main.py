@@ -1,7 +1,7 @@
 from enum import Enum
 from pymongo import MongoClient
 from fastapi import FastAPI
-from typing import Optional, List
+from typing import Optional, List, Union
 from pydantic import BaseModel, HttpUrl
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
@@ -24,7 +24,7 @@ class Style(str, Enum):
 class Name(str, Enum):
     nm = 'nm'
     nmpz = 'nmpz'
-    ncnc = 'ncnc' #TODO: stick this somewhere else
+    ncnc = 'ncnc' #TODO: stick this somewhere else, maybe?
 
 
 class Map(BaseModel):
@@ -56,8 +56,7 @@ class Response(BaseModel):
     status_code: int = 200
     success: bool = True
     message: str
-    data: dict
-    data: Query 
+    data: Union[Query, dict]
 
 
 client = MongoClient(environ["MONGO_URI"])

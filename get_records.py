@@ -51,12 +51,18 @@ def get_map_info(row):
             name=sanitize(link[0].text_content()),
             link=href,
             region='null'
-        )
+        ).dict()
 
 def get_owner(text: str):
     owner = re.sub(r'[^A-Za-z0-9_]', '', text)
     owner = sanitize(owner)
     return owner
+
+def get_record_video(row):
+    link = row.xpath('./a')
+    if len(link) > 0:
+        href = link[0].xpath('./@href')[0]
+        return href
 
 def get_records():
     records = []
@@ -81,14 +87,11 @@ def get_records():
                 record['owner'] = get_owner(holder)
                 record['map'] = get_map_info(row[2])
                 record['score'] = sanitize(row[3].text_content())
-                record['video'] = row[4].text_content() if row[4].text_content() != "" else 'None'
-                #TODO: write a get_record_video function to parse multiples etc.
-                pprint(record)
+                record['video'] = get_record_video(row[4]) if row[4].text_content() != "" else "none"
 
 
-            # requests.post('http://localhost:8000/add', data={
-            #     category: ''
-            # })
+            x = requests.post('http://localhost:8000/add', json=record, headers={"Content-Type": "application/json"})
+            print(x.text)
             # records[names[0].text_content()] = ['test']
     
     # pprint(rows)
