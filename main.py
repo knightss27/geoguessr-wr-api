@@ -68,13 +68,14 @@ app = FastAPI()
 
 
 @app.get("/records", responses={200: {'model': Response}})
-async def get_records_list(category: Optional[Category] = None, style: Optional[Style] = None, move_type: Optional[MoveType] = None, map_name: Optional[str] = None):
-    print(category, style, name, map_name)
+async def get_records_list(category: Optional[Category] = None, style: Optional[Style] = None, move_type: Optional[MoveType] = None, ncnc: Optional[bool] = None, map_name: Optional[str] = None):
+    print(category, style, move_type, map_name)
 
     query = {
         "category": category, 
         "style": style, 
-        "name": name, 
+        "move_type": move_type, 
+        "ncnc": ncnc,
         "map.name": map_name
     }
 
