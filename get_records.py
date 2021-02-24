@@ -56,7 +56,7 @@ def get_map_info(row):
         ).dict()
 
 def get_owner(text: str):
-    owner = re.sub(r'[^A-Za-z0-9_]', '', text)
+    owner = re.sub(r'[^A-Za-z_]', '', text) # I would like to keep numbers, but there are a few records with 4th/5th in front of the username.
     owner = sanitize(owner)
     return owner
 
@@ -92,8 +92,8 @@ def get_records():
                 record['video'] = get_record_video(row[4]) if row[4].text_content() != "" else "none"
 
             print(record)
-            # x = requests.post('http://localhost:8000/add', json=record, headers={"Content-Type": "application/json"})
-            # print(x.text)
+            x = requests.post('http://localhost:8000/add', json=record, headers={"Content-Type": "application/json"})
+            print(x.text)
             # records[names[0].text_content()] = ['test']
     
     # pprint(rows)
