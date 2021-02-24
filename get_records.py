@@ -4,7 +4,7 @@ import string
 import json
 from pprint import pprint
 import re
-from main import Category, Style, Name, Map, Record
+from main import Map
 from pydantic import HttpUrl
 
 def sanitize(text: str):
@@ -23,15 +23,17 @@ def get_record_base(row):
     # print(title)
 
     if 'nmpz' in title:
-        record['name'] = 'nmpz'
+        record['move_type'] = 'nmpz'
         title = title.replace('nmpz', '')
     elif 'nm' in title:
-        record['name'] = 'nm'
+        record['move_type'] = 'nm'
         title = title.replace('nm', '')
-    elif 'ncnc' in title:
-        record['name'] = 'ncnc'
+    
+    record['ncnc'] = False
+    if 'ncnc' in title:
+        record['ncnc'] = True
         title = title.replace('ncnc', '')
-
+        
     if 'streaks' in title or 'streak' in title:
         # print('found streaks')
         record['style'] = 'streaks'
@@ -89,9 +91,9 @@ def get_records():
                 record['score'] = sanitize(row[3].text_content())
                 record['video'] = get_record_video(row[4]) if row[4].text_content() != "" else "none"
 
-
-            x = requests.post('http://localhost:8000/add', json=record, headers={"Content-Type": "application/json"})
-            print(x.text)
+            print(record)
+            # x = requests.post('http://localhost:8000/add', json=record, headers={"Content-Type": "application/json"})
+            # print(x.text)
             # records[names[0].text_content()] = ['test']
     
     # pprint(rows)

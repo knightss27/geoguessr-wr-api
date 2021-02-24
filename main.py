@@ -21,11 +21,11 @@ class Style(str, Enum):
     hedge = 'hedge'
 
 
-class Name(str, Enum):
+class MoveType(str, Enum):
+    normal = 'normal'
     nm = 'nm'
     nmpz = 'nmpz'
-    ncnc = 'ncnc' #TODO: stick this somewhere else, maybe?
-
+    # ncnc = 'ncnc' #TODO: stick this somewhere else, maybe?
 
 class Map(BaseModel):
     name: str
@@ -37,8 +37,9 @@ class Record(BaseModel):
     owner: str
     category: Category
     style: Style
-    name: Name
+    move_type: MoveType
     map: Map
+    ncnc: bool
     video: HttpUrl
     video: str
     time: Optional[str]
@@ -67,7 +68,7 @@ app = FastAPI()
 
 
 @app.get("/records", responses={200: {'model': Response}})
-async def get_records_list(category: Optional[Category] = None, style: Optional[Style] = None, name: Optional[Name] = None, map_name: Optional[str] = None):
+async def get_records_list(category: Optional[Category] = None, style: Optional[Style] = None, move_type: Optional[MoveType] = None, map_name: Optional[str] = None):
     print(category, style, name, map_name)
 
     query = {
